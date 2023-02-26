@@ -1,6 +1,8 @@
 import flask
 import uuid
 
+version = "0.1.0b"
+
 app = flask.Flask(__name__)
 
 @app.route("/")
