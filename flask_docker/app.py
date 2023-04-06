@@ -1,5 +1,7 @@
 import flask
+from flask import session
 import uuid
+from flask_socketio import SocketIO, emit, disconnect
 
 app = flask.Flask(__name__)
 
@@ -7,11 +9,14 @@ app = flask.Flask(__name__)
 def index():
     return str(f"our unique ID:{uuid.uuid4()}")
 
-# @socket_.on('connect')
-# def test_connect():
-#     app.logger.critical("Connection message")
-#     session['receive_count'] = session.get('receive_count', 0) + 1
-#     emit('my response', {'data': 'Connected\n', 'count': session['receive_count']})
+async_mode = None
+socket_ = SocketIO(app, async_mode=async_mode)
+
+@socket_.on('connect')
+def test_connect():
+    app.logger.critical("Connection message")
+    session['receive_count'] = session.get('receive_count', 0) + 1
+    emit('my response', {'data': 'Connected\n', 'count': session['receive_count']})
 
 # @socket_.on('my_event')
 # def test_message(message):
